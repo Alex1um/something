@@ -76,7 +76,7 @@ class Moover(Thread):
                         pol.append(self.objs[i].canvas.create_polygon(self.objs[i].get_st_coords(),
                                                                       self.objs[i].get_coords(),
                                                                       self.objs[i-1].get_coords(),
-                                                                      fill='orange',
+                                                                      fill=to_rgb((255 * self.objs[i].i // le, 255 * self.objs[i].i // le, 0)),
                                                                       width=2,
                                                                       outline='black'))
             sleep(self.time)
@@ -109,6 +109,10 @@ def get_points(foo, unfoo, yp=5, speed=1):
     return list(sorted(ac, key=lambda x: x[0]))[::speed]
 
 
+def to_rgb(x):
+    return '#%02x%02x%02x' % x
+
+
 root = Tk()
 canvas = Canvas(root, height=700, width=1000, bg='lightblue')
 canvas.pack()
@@ -120,6 +124,7 @@ width = 500
 canvas.create_oval(xs - width, yr - sqrt(r), xs + width, yr + sqrt(r))
 point = get_points(lambda x: circle(xs, x, r, width), lambda y: uncircle(xs, y, r, width), yp=10, speed=5)
 le = len(point) - 1
+print(le)
 params = (canvas, xs, ys, lambda x: circle(xs, x, r, width), point)
 # 4 angle
 l4 = Line(*params, le // 4, -1)
