@@ -120,7 +120,6 @@ xs, ys = 500, 100
 yr = 650
 r = 1000
 width = 500
-# a = canvas.create_oval(150, 250, 300, 270, fill='green')
 canvas.create_oval(xs - width, yr - sqrt(r), xs + width, yr + sqrt(r))
 point = get_points(lambda x: circle(xs, x, r, width), lambda y: uncircle(xs, y, r, width), yp=10, speed=5)
 le = len(point) - 1
