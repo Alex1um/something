@@ -24,8 +24,7 @@ class Line:
     def get_st_coords(self):
         return self.xs, self.ys
 
-    def __init__(self, canvas, xs1, ys1, foo, points, i, k=1):
-        self.canvas = canvas
+    def __init__(self, xs1, ys1, foo, points, i, k=1):
         self.xs, self.ys, self.x = xs1, ys1, points[i % (le + 1)][0]
         self.y = foo(self.x) + yr
         self.foo = foo
@@ -34,7 +33,7 @@ class Line:
         self.k = k
         self.object = None
 
-    def move(self, vis=True, skelet=False):
+    def move(self):
         # l = len(self.points) - 1
         if self.i == 0:
             self.k = 1
@@ -42,43 +41,35 @@ class Line:
             self.k = -1
         newx = self.points[self.i][0]
         newy = self.points[self.i][1] * self.k + yr
-        if skelet:
-            if self.object:
-                self.canvas.delete(self.object)
-            if vis:
-                self.object = self.canvas.create_line(self.xs, self.ys, newx, newy)
-            else:
-                self.object = False
         self.x, self.y = newx, newy
-        self.canvas.update()
         self.i += 1 * self.k
 
 
 class Moover(Thread):
     objs: tuple
 
-    def __init__(self, time=0.5, skelet=False, *args):
+    def __init__(self, main, time=0.5, *args):
         super().__init__()
         self.objs = args
         self.time = time
-        self.skelet = skelet
+        self.main = main
 
     def run(self):
         pol = []
         while True:
             for pols in pol:
-                self.objs[0].canvas.delete(pols)
+                self.main.delete(pols)
             v = self.getvis()
             for i in range(len(self.objs)):
-                self.objs[i].move(v[i], self.skelet)
-                if not self.skelet:
-                    if v[i] and v[i-1] and (self.objs[i].k != self.objs[i - 1].k or self.objs[i - 1].k == self.objs[i].k and self.objs[i].k == 1):
-                        pol.append(self.objs[i].canvas.create_polygon(self.objs[i].get_st_coords(),
-                                                                      self.objs[i].get_coords(),
-                                                                      self.objs[i-1].get_coords(),
-                                                                      fill=to_rgb((255 * self.objs[i].i // le, 255 * self.objs[i].i // le, 0)),
-                                                                      width=2,
-                                                                      outline='black'))
+                self.objs[i].move()
+                if v[i] and v[i-1] and (self.objs[i].k != self.objs[i - 1].k or self.objs[i - 1].k == self.objs[i].k and self.objs[i].k == 1):
+                    pol.append(self.main.create_polygon(self.objs[i].get_st_coords(),
+                                                                  self.objs[i].get_coords(),
+                                                                  self.objs[i-1].get_coords(),
+                                                                  fill=to_rgb((255 * self.objs[i].i // le, 255 * self.objs[i].i // le, 0)),
+                                                                  width=2,
+                                                                  outline='black'))
+            self.main.update()
             sleep(self.time)
 
     def getvis(self):
@@ -123,12 +114,11 @@ width = 500
 canvas.create_oval(xs - width, yr - sqrt(r), xs + width, yr + sqrt(r))
 point = get_points(lambda x: circle(xs, x, r, width), lambda y: uncircle(xs, y, r, width), yp=10, speed=5)
 le = len(point) - 1
-print(le)
-params = (canvas, xs, ys, lambda x: circle(xs, x, r, width), point)
+params = (xs, ys, lambda x: circle(xs, x, r, width), point)
 # 4 angle
 l4 = Line(*params, le // 4, -1)
 l = Line(*params, le * 3 // 4, -1)
 l1 = Line(*params, le // 4)
 l2 = Line(*params, le * 3 // 4)
-m = Moover(1e-10, False, l4, l1, l2, l).start()
+m = Moover(canvas, 1e-10, l4, l1, l2, l).start()
 root.mainloop()
