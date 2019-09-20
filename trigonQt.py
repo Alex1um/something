@@ -52,12 +52,12 @@ class Moover(Thread):
 
     def run(self):
         while True:
+            for o in self.objs:
+                o.move()
             v = self.get_visible_all()
             for i in range(len(self.objs)):
-                self.objs[i].move()
-                if not self.skelet:
-                    if v[i] and v[i - 1] and (self.objs[i].k != self.objs[i - 1].k or self.objs[i - 1].k == self.objs[i].k and self.objs[i].k == 1):
-                        self.main.pyro.append((self.objs[i].point0, self.objs[i].point1, self.objs[i-1].point1))
+                if v[i] and v[i - 1] and (self.objs[i].k != self.objs[i - 1].k or self.objs[i - 1].k == self.objs[i].k and self.objs[i].k == 1):
+                    self.main.pyro.append((self.objs[i].point0, self.objs[i].point1, self.objs[i-1].point1))
             sleep(self.time)
             self.main.update()
 
