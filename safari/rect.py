@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 import sys
 from threading import Thread
-from math import sin, cos, pi, sqrt
+from math import sin, cos, pi, sqrt, atan
 import time
 import random
 
@@ -24,8 +24,10 @@ class Rekt(QtWidgets.QWidget, Thread):
             self.angle = pi / 10
             self.width = w
             self.height = h
+            self.angles = (atan(height / width) * 2, atan(width / height) * 2, atan(height / width) * 2, atan(width / height) * 2)
             self.da = da
             self.delay = delay
+            # self.start()
 
         def run(self):
             while 1:
@@ -35,10 +37,9 @@ class Rekt(QtWidgets.QWidget, Thread):
         def move_rekt(self):
             self.center[0] += self.vx * self.kx
             self.center[1] += self.vy * self.ky
-            angles = (to_radians(30), to_radians(150), to_radians(30), to_radians(150))
             for i, point in enumerate(self.points):
                 self.rotate(point)
-                self.angle += angles[i]
+                self.angle += self.angles[i]
                 # point.setX(point.x() + self.vx * self.kx)
                 # point.setY(point.y() + self.vy + self.ky)
             if min(self.points, key=lambda e: e.x()).x() < 0:
@@ -61,12 +62,10 @@ class Rekt(QtWidgets.QWidget, Thread):
         super().__init__()
         self.resize(500, 500)
         self.rekts = []
-        self.rekts.append(self.Get_Rekt(self.width(), self.height(), width, height, 250, 250, 5, 10, 0.05, 0.01))
+        self.rekts.append(self.Get_Rekt(self.width(), self.height(), width, height, 250, 250, 1, 2, 0.05, 0.01))
         self.rekts.append(self.Get_Rekt(self.width(), self.height(), width, height, 0, 0, 0.1, 0.1, 0.1, 0.0001))
         for i in ' ' * random.randint(0, 10):
-            self.rekts.append(self.Get_Rekt(self.width(), self.height(), random.randint(0, self.width() / 2), random.randint(0, self.height() / 2), 250, 250, random.uniform(0.1, 10), random.uniform(0.1, 10), random.random(), random.random() / 10))
-        for rekt in self.rekts:
-            rekt.start()
+            self.rekts.append(self.Get_Rekt(self.width(), self.height(), random.randint(0, self.width() / 2), random.randint(0, self.height() / 2), 250, 250, random.uniform(0.1, 10), random.uniform(0.1, 10), random.uniform(0.01, 0.2), random.random() / 10))
         self.painter = QtGui.QPainter(self)
 
         self.update()
@@ -76,8 +75,10 @@ class Rekt(QtWidgets.QWidget, Thread):
         while 1:
             self.update()
             for rekt in self.rekts:
+                rekt.move_rekt()
                 rekt.width = self.width()
                 rekt.height = self.height()
+                time.sleep(1e-20)
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
         self.painter.begin(self)
