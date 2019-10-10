@@ -18,24 +18,25 @@ class Road(QtWidgets.QWidget):
 
         def draw(self, painter: QtGui.QPainter, color: QtGui.QBrush):
             painter.setBrush(color)
-            painter.drawRect(self.x - self.w / 2, self.y, self.w, self.h)
+            kx = 10
+            ky = 3
+            painter.drawRect((self.x - self.w / 2) * kx, ky * self.y, self.w, self.h)
 
     def __init__(self):
         super().__init__()
         self.resize(500, 500)
-        self.petya = self.MovingObject(self.width() + 50, self.height() + 40, 20, 40)
+        self.petya = self.MovingObject(50, 40, 20, 40)
         self.m, self.n, self.p, self.a = map(int, input().split())
         self.sweets = tuple(tuple(map(int, input().split())) for _ in '*' * self.n)
-        self.anna = self.MovingObject(self.width() + 50, self.height() + 40 + self.m + 20, 20, 40)
+        self.anna = self.MovingObject(50, 40 + self.m + 20, 20, 40)
         self.painter = QtGui.QPainter(self)
-        self.sweet = self.MovingObject(self.sweets[0][0] + 50, self.height() + 20, 20, 20)
+        self.sweet = self.MovingObject(self.sweets[0][0] + 50, 20, 20, 20)
         self.time = 0
         self.update()
         self.show()
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
         self.painter.begin(self)
-        self.painter.drawRect(0, 0, 100, 100)
         self.petya.draw(self.painter, QtGui.QBrush(QtCore.Qt.blue, QtCore.Qt.SolidPattern))
         self.anna.draw(self.painter, QtGui.QBrush(QtCore.Qt.red, QtCore.Qt.SolidPattern))
         self.sweet.draw(self.painter, QtGui.QBrush(QtCore.Qt.red, QtCore.Qt.SolidPattern))
