@@ -78,7 +78,7 @@ class Rekt(QtWidgets.QWidget, Thread):
                 rekt.move_rekt()
                 rekt.width = self.width()
                 rekt.height = self.height()
-                time.sleep(1e-20)
+            time.sleep(1e-20)
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
         self.painter.begin(self)

@@ -118,10 +118,10 @@ class Mooving_Pyramid(QMainWindow):
 
     def paintEvent(self, event):
         # self.painter = QPainter(self)
-        self.painter.setBrush(self.pbrushes[0][0])
-        self.painter.setPen(self.pbrushes[0][1])
+        # self.painter.setBrush(self.pbrushes[0][0])
+        # self.painter.setPen(self.pbrushes[0][1])
         self.painter.begin(self)
-        self.painter.drawRect(0, 0, self.width(), self.height())
+        # self.painter.drawRect(0, 0, self.width(), self.height())
         self.painter.setBrush(self.pbrushes[1][0])
         self.painter.setPen(self.pbrushes[1][1])
         for point in self.pyro:
