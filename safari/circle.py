@@ -45,7 +45,7 @@ class Circles(QtWidgets.QWidget, Thread):
             # k = random.uniform(0.3, 0.8)
             # c = self.Circle(c, c.r * k, c.r * (1 - k), d, random.uniform(0.001, 0.1))
             k = random.uniform(0.5, 1)
-            c = self.Circle(c, c.r * k, random.randint(50, 100), d, random.uniform(0.005, 0.01))
+            c = self.Circle(c, c.r * k, random.randint(50, 100), d, random.uniform(0.05, 0.1))
             self.circles.append(c)
             d /= 5
         self.painter = QtGui.QPainter(self)
