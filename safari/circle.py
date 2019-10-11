@@ -41,11 +41,11 @@ class Circles(QtWidgets.QWidget, Thread):
         c = self
         d = 0.1
         k = 1
-        for i in range(10):
+        for i in range(5000):
             # k = random.uniform(0.3, 0.8)
             # c = self.Circle(c, c.r * k, c.r * (1 - k), d, random.uniform(0.001, 0.1))
             k = random.uniform(0.5, 1)
-            c = self.Circle(c, c.r * k, random.randint(50, 300), d, random.uniform(0.005, 0.05))
+            c = self.Circle(c, c.r * k, random.randint(50, 100), d, random.uniform(0.005, 0.01))
             self.circles.append(c)
             d /= 5
         self.painter = QtGui.QPainter(self)
@@ -74,13 +74,14 @@ class Circles(QtWidgets.QWidget, Thread):
             time.sleep(1e-20)
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
-            self.painter.begin(self)
-            self.painter.drawEllipse(self.point, self.r, self.r)
-            for circle in self.circles:
-                circle.rotate()
-                self.painter.drawEllipse(circle.point, circle.r, circle.r)
-            self.painter.end()
-            time.sleep(1e-2)
+        self.painter.begin(self)
+        self.painter.drawEllipse(self.point, self.r, self.r)
+        for circle in self.circles:
+            circle.rotate()
+            self.painter.setBrush(QtGui.QBrush(QtGui.QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), QtCore.Qt.SolidPattern))
+            self.painter.drawEllipse(circle.point, circle.r, circle.r)
+        self.painter.end()
+        time.sleep(1e-2)
 
 
 app = QtWidgets.QApplication(sys.argv)
