@@ -6,6 +6,21 @@ import time
 
 class Road(QtWidgets.QWidget):
 
+    class Sweetofor:
+
+        def __init__(self, x, y, w, h, s, tg, tr, cc, dt):
+            self.x, self.y, self.w, self.h, self.s, self.tg, self.tr, self.cc, self.dt = x, y, w, h, s, tg, tr, cc, dt
+
+        def event(self):
+            self.dt -= 1
+            if self.dt <= 0:
+                self.cc = 1 if self.cc == 2 else 0
+            self.dt = self.tg if self.cc == 1 else self.tr
+
+        def paint(self, painter: QtGui.QPainter):
+            painter.setBrush(QtGui.QBrush(QtCore.Qt.red if self.cc == 2 else QtCore.Qt.green, QtCore.Qt.SolidPattern))
+            painter.drawRect(self.x - self.w / 2, self.y, self.w, self.h)
+
     class MovingObject:
 
         def __init__(self, x, y, w, h):
