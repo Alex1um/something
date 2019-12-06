@@ -1,5 +1,5 @@
 from math import *
-
+import time
 true = True
 false = False
 none = None
@@ -21,11 +21,6 @@ def nothing(*args, **kwargs):
     pass
 
 
-def reduce_fraction(num: int, denom: int) -> (int, int):
-    g = gcd(num, denom)
-    return num // g, denom // g
-
-
 def c(n: int, k: int) -> int:
     return factorial(n) // factorial(k) // factorial(n - k)
 
@@ -36,3 +31,9 @@ def a(n: int, k: int) -> int:
 
 def rotate_point(x: float or int, y: float or int, angle: float, x0=0, y0=0) -> (int, int):
     return x0 + (x - x0) * cos(angle) - (y - y0) * sin(angle), y0 + (y - y0) * cos(angle) + (x - x0) * sin(angle)
+
+
+def timeit(foo, *args, **kwargs):
+    s = time.time()
+    foo(*args, **kwargs)
+    return time.time() - s
