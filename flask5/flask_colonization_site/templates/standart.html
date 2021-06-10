@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ st_title }}</h2>
+<form class='f1' method="POST">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.name != 'csrf_token' %}
+    {% if field.name == "submit" %}
+    {{ field(class_="sub")}}
+    {% else %}
+    {{ field.label() }}
+    <br>
+    {{ field(id = "t1") }}
+    <br>
+    {% endif %}
+    {% endfor %}
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="./static/css/table.css" type="text/css">
+
+<h2 align="center">Works Log</h2>
+{% if current_user.is_authenticated %}
+<span class="buttons">
+<div>
+    <button class="sub" onclick="location.href='/addjob'">Add new job</button>
+</div>
+<div>
+    <button class="sub" onclick="location.href='/departments'">View Departments</button>
+</div>
+<div>
+    <button class="sub" onclick="location.href='/users_show/{{ current_user.id }}'">View Homeplace</button>
+</div>
+</span>
+{% endif %}
+{% for id in range( jobs|length ) %}
+<span class="buttons">
+<h2 class="tb_h">Action # {{ id + 1 }}</h2>
+{% if current_user.id in (1, jobs[id][2]) %}
+<button class="sub login" onclick="location.href='/editjob/{{ id + 1 }}'">Edit</button>
+<button class="sub logout" onclick="location.href='/deletejob/{{ id + 1 }}'">Delete</button>
+{% endif %}
+</span>
+<table cellspacing="0" cellpadding="0" class="tb">
+    <tr class="titles">
+        {% for title in jobs[id][0] %}
+        <td>{{ title }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="conts">
+        {% for cont in jobs[id][1] %}
+        <td>{{ cont }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% endfor %}
+
+{% endblock content %}

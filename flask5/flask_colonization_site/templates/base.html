@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ base_title }}</title>
+
+    <link rel="stylesheet" href="{{ stpath }}" type="text/css">
+</head>
+<body>
+    <div class="hses">
+        <h1><a class="mission" href="/">Миссия Колонизация Марса</a></h1>
+        <span class="buttons">
+            {% if current_user.is_authenticated %}
+            <div>
+            {{ current_user.name }} {{ current_user.surname }}<br>
+            ({{ current_user.email }})
+            </div>
+            <div>
+                <button class="sub logout" onclick="location.href='/logout'">Logout</button>
+            </div>
+            
+            {% else %}
+            <button class="sub login" onclick="location.href='/login'">Login</button>  
+            <button class="sub" onclick="location.href='/register'">Register</button>
+            {% endif %}
+        </span>
+        <h5 align="right">Mars One</h5>
+    </div>
+    <h4 class="opc">И на Марсе будут яблони цвести!</h4>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h2>Error: </h2>
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <div class="main">
+    {% block content %}
+    
+    {% endblock content %}
+    </div>
+</body>
+</html>

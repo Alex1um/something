@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .main{
+        text-align: center;
+    }
+</style>
+<h2>Nostalgy</h2>
+<h2>{{ user['name'] }} {{ user['surname'] }}</h2>
+<h5>{{ user['city_from'] }}</h5>
+<img src="../../static/images/{{ user['id'] }}.png">
+{% endblock content %}

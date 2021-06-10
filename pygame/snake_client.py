@@ -286,19 +286,19 @@ while 1:
     try:
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN:
-                if e.dict['key'] == 273:  # up
+                if e.dict['key'] == pygame.key.key_code("UP"):  # up
                     con.send('up???'.encode('utf-8'))
                     break
-                elif e.dict['key'] == 276:  # down
+                elif e.dict['key'] == pygame.key.key_code("LEFT"):  # down
                     con.send('left?'.encode('utf-8'))
                     break
-                elif e.dict['key'] == 274: # left
+                elif e.dict['key'] == pygame.key.key_code("DOWN"): # left
                     con.send('down?'.encode('utf-8'))
                     break
-                elif e.dict['key'] == 275: # right:
+                elif e.dict['key'] == pygame.key.key_code("RIGHT"): # right:
                     con.send('right'.encode('utf-8'))
                     break
-                elif e.dict['key'] == 13:  # enter
+                elif e.dict['key'] == pygame.K_RETURN:  # enter
                     con.send('start'.encode('utf-8'))
                     break
         time.sleep(0.1)
